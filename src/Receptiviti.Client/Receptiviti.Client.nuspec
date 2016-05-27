@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<package
+    xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Receptiviti.Client</id>
+        <version>$version$</version>
+        <authors>Jerome Haltom</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>API client for the Receptiviti service.</description>
+        <summary></summary>
+        <language>en-US</language>
+        <copyright>Jerome Haltom</copyright>
+        <projectUrl>http://http://www.receptiviti.ai/</projectUrl>
+        <tags>receptiviti</tags>
+    </metadata>
+</package>

@@ -270,7 +270,7 @@ namespace Receptiviti.Client
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
         /// <returns></returns>
-        public async Task<LsmScoreResult> GetLsmScore(string person1, string person2, string language = null, string[] tags = null, DateTime? fromDate = null, DateTime? toDate = null)
+        public async Task<LsmScoreResult> GetLsmScore(string person1, string person2, Language? language = null, string[] tags = null, DateTime? fromDate = null, DateTime? toDate = null)
         {
             Contract.Requires<ArgumentNullException>(person1 != null);
             Contract.Requires<ArgumentNullException>(person2 != null);
@@ -279,7 +279,7 @@ namespace Receptiviti.Client
             var urib = new UriBuilder(Uri.Combine("lsm_score"));
             urib.AppendQuery("person1", person1);
             urib.AppendQuery("person2", person2);
-            urib.AppendQueryIfNotNull("language", language);
+            urib.AppendQueryIfNotNull("language", language?.ToEnumString());
             urib.AppendQueryIfNotNull("tags", tags);
             urib.AppendQueryIfNotNull("from_date", fromDate);
             urib.AppendQueryIfNotNull("to_date", toDate);
@@ -488,6 +488,20 @@ namespace Receptiviti.Client
             Contract.Requires<ArgumentNullException>(payload != null);
 
             using (var request = CreateMessage(HttpMethod.Put, Uri.Combine("writing_sample").Combine(id).Combine("tags"), payload))
+                return await SendAsync<WritingSample>(request);
+        }
+
+        /// <summary>
+        /// Creates a new writing sample.
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        [Obsolete]
+        public async Task<WritingSample> PostWritingSample(WritingSampleRequest payload)
+        {
+            Contract.Requires<ArgumentNullException>(payload != null);
+
+            using (var request = CreateMessage(HttpMethod.Post, Uri.Combine("writing_sample"), payload))
                 return await SendAsync<WritingSample>(request);
         }
 

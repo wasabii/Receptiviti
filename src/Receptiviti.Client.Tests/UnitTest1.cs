@@ -78,6 +78,17 @@ namespace Receptiviti.Client.Tests
             var lsm = await api.GetLsmScore(person1.Id, person2.Id);
         }
 
+        [TestMethod]
+        public async Task Test_PostWritingSample()
+        {
+            var api = new ReceptivitiClient(API_KEY, API_SECRET_KEY);
+            var wrt = await api.PostWritingSample(new WritingSampleRequest()
+            {
+                ContentSource = ContentSource.ProfessionalCorrespondence,
+                Content = "hello",
+            });
+        }
+
     }
 
 }

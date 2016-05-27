@@ -11,7 +11,7 @@ namespace Receptiviti.Client.Model
     {
 
         [JsonProperty("language", NullValueHandling = NullValueHandling.Ignore)]
-        public string Language { get; set; }
+        public Language? Language { get; set; }
 
         [JsonProperty("tags", NullValueHandling = NullValueHandling.Ignore)]
         public string[] Tags { get; set; }
