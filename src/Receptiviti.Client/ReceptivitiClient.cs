@@ -44,6 +44,7 @@ namespace Receptiviti.Client
         /// <param name="http"></param>
         /// <param name="uri"></param>
         /// <param name="apiKey"></param>
+        /// <param name="apiSecretKey"></param>
         public ReceptivitiClient(HttpClient http, Uri uri, string apiKey, string apiSecretKey)
             : this()
         {
