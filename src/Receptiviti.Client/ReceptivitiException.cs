@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Net;
 
 namespace Receptiviti.Client
@@ -52,6 +53,8 @@ namespace Receptiviti.Client
         public ReceptivitiException(HttpStatusCode statusCode, ReceptivitiError error)
             : base(error.Message)
         {
+            Contract.Requires<ArgumentNullException>(error != null);
+
             this.statusCode = statusCode;
             this.error = error;
         }
@@ -65,6 +68,8 @@ namespace Receptiviti.Client
         public ReceptivitiException(HttpStatusCode statusCode, ReceptivitiError error, Exception innerException)
             : base(error.Message, innerException)
         {
+            Contract.Requires<ArgumentNullException>(error != null);
+
             this.statusCode = statusCode;
             this.error = error;
         }

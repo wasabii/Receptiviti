@@ -10,10 +10,10 @@ namespace Receptiviti.Client.Model
     public class WritingSampleRequest
     {
 
-        [JsonProperty("language")]
+        [JsonProperty("language", NullValueHandling = NullValueHandling.Ignore)]
         public string Language { get; set; }
 
-        [JsonProperty("tags")]
+        [JsonProperty("tags", NullValueHandling = NullValueHandling.Ignore)]
         public string[] Tags { get; set; }
 
         [JsonProperty("client_reference_id")]
@@ -25,13 +25,13 @@ namespace Receptiviti.Client.Model
         [JsonProperty("content")]
         public string Content { get; set; }
 
-        [JsonProperty("sample_date")]
+        [JsonProperty("sample_date", NullValueHandling = NullValueHandling.Ignore)]
         public DateTime? SampleDate { get; set; }
 
-        [JsonProperty("recipient")]
+        [JsonProperty("recipient", NullValueHandling = NullValueHandling.Ignore)]
         public string Recipient { get; set; }
 
-        [JsonProperty("custom_fields")]
+        [JsonProperty("custom_fields", NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string, object> CustomFields { get; set; }
 
     }

@@ -171,8 +171,10 @@ namespace Receptiviti.Client
             Contract.Requires<ArgumentNullException>(response != null);
 
             var s = await response.Content.ReadAsStringAsync();
-            var o = JToken.Parse(s);
-            return o.ToObject<TResult>();
+            var j = JToken.Parse(s);
+            var o = j.ToObject<TResult>();
+
+            return o;
         }
 
         /// <summary>
@@ -268,7 +270,7 @@ namespace Receptiviti.Client
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
         /// <returns></returns>
-        public async Task<double> GetLsmScore(string person1, string person2, string language = null, string[] tags = null, DateTime? fromDate = null, DateTime? toDate = null)
+        public async Task<LsmScoreResult> GetLsmScore(string person1, string person2, string language = null, string[] tags = null, DateTime? fromDate = null, DateTime? toDate = null)
         {
             Contract.Requires<ArgumentNullException>(person1 != null);
             Contract.Requires<ArgumentNullException>(person2 != null);
@@ -283,7 +285,7 @@ namespace Receptiviti.Client
             urib.AppendQueryIfNotNull("to_date", toDate);
 
             using (var request = CreateMessage(HttpMethod.Get, urib.Uri))
-                return await SendAsync<double>(request);
+                return await SendAsync<LsmScoreResult>(request);
         }
 
         /// <summary>
@@ -432,7 +434,7 @@ namespace Receptiviti.Client
             Contract.Requires<ArgumentNullException>(id != null);
             Contract.Requires<ArgumentNullException>(payload != null);
 
-            using (var request = CreateMessage(HttpMethod.Post, Uri.Combine("person").Combine(id).Combine("writing_samples")))
+            using (var request = CreateMessage(HttpMethod.Post, Uri.Combine("person").Combine(id).Combine("writing_samples"), payload))
                 return await SendAsync<WritingSample>(request);
         }
 

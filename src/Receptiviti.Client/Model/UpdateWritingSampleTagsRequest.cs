@@ -12,7 +12,7 @@ namespace Receptiviti.Client.Model
         /// <summary>
         /// Tags.
         /// </summary>
-        [JsonProperty("tags")]
+        [JsonProperty("tags", NullValueHandling = NullValueHandling.Ignore)]
         public string[] Tags { get; set; }
 
     }

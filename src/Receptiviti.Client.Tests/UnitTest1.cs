@@ -45,7 +45,8 @@ namespace Receptiviti.Client.Tests
             var lst = await api.GetPersons();
         }
 
-        public async Task Test_PostWritingSample()
+        [TestMethod]
+        public async Task Test_GetLsm()
         {
             var api = new ReceptivitiClient(API_KEY, API_SECRET_KEY);
             var person1 = await api.PostPerson(new CreatePersonRequest()
@@ -62,12 +63,19 @@ namespace Receptiviti.Client.Tests
                 Gender = Gender.Male,
                 Tags = new string[] { "tag1", "tag2" },
             });
-            var sample = await api.PostPersonWritingSample(person.Id, new WritingSampleRequest()
+            var sample1 = await api.PostPersonWritingSample(person1.Id, new WritingSampleRequest()
             {
                 ContentSource = ContentSource.ProfessionalCorrespondence,
                 Content = "hello this is a test",
-                Recipient
+                Recipient = person2.Id,
             });
+            var sample2 = await api.PostPersonWritingSample(person2.Id, new WritingSampleRequest()
+            {
+                ContentSource = ContentSource.ProfessionalCorrespondence,
+                Content = "hello this is a test",
+                Recipient = person1.Id,
+            });
+            var lsm = await api.GetLsmScore(person1.Id, person2.Id);
         }
 
     }

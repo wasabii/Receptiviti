@@ -19,7 +19,7 @@ namespace Receptiviti.Client.Model
         /// <summary>
         /// Tags.
         /// </summary>
-        [JsonProperty("tags")]
+        [JsonProperty("tags", NullValueHandling = NullValueHandling.Ignore)]
         public string[] Tags { get; set; }
 
         /// <summary>
@@ -37,13 +37,13 @@ namespace Receptiviti.Client.Model
         /// <summary>
         /// 
         /// </summary>
-        [JsonProperty("writing_sample")]
+        [JsonProperty("writing_sample", NullValueHandling = NullValueHandling.Ignore)]
         public WritingSampleRequest WritingSample { get; set; }
 
         /// <summary>
         /// Custom Fields.
         /// </summary>
-        [JsonProperty("custom_fields")]
+        [JsonProperty("custom_fields", NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string, object> CustomFields { get; set; } = new Dictionary<string, object>();
 
     }

@@ -136,6 +136,7 @@
   <ItemGroup>
     <Compile Include="Model\LiwcCategories.cs" />
     <Compile Include="Model\LiwcScores.cs" />
+    <Compile Include="Model\LsmScoreResult.cs" />
     <Compile Include="Model\Many.cs" />
     <Compile Include="Model\PersonalitySnapshot.cs" />
     <Compile Include="Model\PersonProfile.cs" />
