@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
@@ -35,6 +36,9 @@ namespace Receptiviti.Client.Model
 
         [JsonProperty("writing_samples_count")]
         public int WritingSamplesCount { get; set; }
+
+        [JsonProperty("custom_fields", NullValueHandling = NullValueHandling.Ignore)]
+        public Dictionary<string, string> CustomFields { get; set; } = new Dictionary<string, string>();
 
     }
 

@@ -318,12 +318,12 @@ namespace Receptiviti.Client
         /// </summary>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public async Task<Person> PostPerson(CreatePersonRequest payload)
+        public async Task<PostPersonResponse> PostPerson(CreatePersonRequest payload)
         {
             Contract.Requires<ArgumentNullException>(payload != null);
 
             using (var request = CreateMessage(HttpMethod.Post, Uri.Combine("person"), payload))
-                return await SendAsync<Person>(request);
+                return await SendAsync<PostPersonResponse>(request);
         }
 
         /// <summary>

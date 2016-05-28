@@ -38,7 +38,7 @@ namespace Receptiviti.Client.Model
         /// Custom Fields.
         /// </summary>
         [JsonProperty("custom_fields", NullValueHandling = NullValueHandling.Ignore)]
-        public Dictionary<string, object> CustomFields { get; set; } = new Dictionary<string, object>();
+        public Dictionary<string, string> CustomFields { get; set; } = new Dictionary<string, string>();
 
     }
 

@@ -32,7 +32,7 @@ namespace Receptiviti.Client.Model
         public string Recipient { get; set; }
 
         [JsonProperty("custom_fields", NullValueHandling = NullValueHandling.Ignore)]
-        public Dictionary<string, object> CustomFields { get; set; }
+        public Dictionary<string, string> CustomFields { get; set; } = new Dictionary<string, string>();
 
     }
 
