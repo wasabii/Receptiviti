@@ -22,8 +22,6 @@ namespace Receptiviti.Client.Model
         public Many(IEnumerable<TElement> items, int totalCount)
             : base(items)
         {
-            Contract.Requires<ArgumentOutOfRangeException>(totalCount >= 0);
-
             TotalCount = totalCount;
         }
 

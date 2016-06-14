@@ -35,7 +35,7 @@ namespace Receptiviti.Client.Model
         public string ClientReferenceId { get; set; }
 
         /// <summary>
-        /// 
+        /// Initial writing sample to create.
         /// </summary>
         [JsonProperty("writing_sample", NullValueHandling = NullValueHandling.Ignore)]
         public WritingSampleRequest WritingSample { get; set; }
@@ -44,7 +44,7 @@ namespace Receptiviti.Client.Model
         /// Custom Fields.
         /// </summary>
         [JsonProperty("custom_fields", NullValueHandling = NullValueHandling.Ignore)]
-        public Dictionary<string, object> CustomFields { get; set; } = new Dictionary<string, object>();
+        public Dictionary<string, string> CustomFields { get; set; } = new Dictionary<string, string>();
 
     }
 

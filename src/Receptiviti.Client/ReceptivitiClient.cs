@@ -237,13 +237,15 @@ namespace Receptiviti.Client
         /// </summary>
         /// <param name="response"></param>
         /// <returns></returns>
-        int GetTotalCount(HttpResponseMessage response)
+        int? GetTotalCount(HttpResponseMessage response)
         {
             Contract.Requires<ArgumentNullException>(response != null);
 
-            return response.Headers.GetValues("X-Total-Count")
-                .Where(i => i != null)
-                .Select(i => Convert.ToInt32(i))
+            return response.Headers
+                .Where(i => i.Key == "X-Total-Count")
+                .Where(i => i.Value != null)
+                .SelectMany(i => i.Value)
+                .Select(i => (int?)Convert.ToInt32(i))
                 .FirstOrDefault();
         }
 
@@ -258,7 +260,7 @@ namespace Receptiviti.Client
             Contract.Requires<ArgumentNullException>(request != null);
 
             using (var response = await http.SendAsync(request))
-                return new Many<TResult>(await HandleResponse<TResult[]>(response), GetTotalCount(response));
+                return new Many<TResult>(await HandleResponse<TResult[]>(response), GetTotalCount(response) ?? -1);
         }
 
         /// <summary>
@@ -318,12 +320,12 @@ namespace Receptiviti.Client
         /// </summary>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public async Task<PostPersonResponse> PostPerson(CreatePersonRequest payload)
+        public async Task<CreatePersonResponse> CreatePerson(CreatePersonRequest payload)
         {
             Contract.Requires<ArgumentNullException>(payload != null);
 
             using (var request = CreateMessage(HttpMethod.Post, Uri.Combine("person"), payload))
-                return await SendAsync<PostPersonResponse>(request);
+                return await SendAsync<CreatePersonResponse>(request);
         }
 
         /// <summary>
@@ -345,7 +347,7 @@ namespace Receptiviti.Client
         /// <param name="id"></param>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public async Task<Person> PutPerson(string id, UpdatePersonRequest payload)
+        public async Task<Person> UpdatePerson(string id, UpdatePersonRequest payload)
         {
             Contract.Requires<ArgumentNullException>(id != null);
             Contract.Requires<ArgumentNullException>(payload != null);
@@ -394,7 +396,7 @@ namespace Receptiviti.Client
         /// <param name="id"></param>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public async Task<Person> PutPersonTags(string id, UpdatePersonTagsRequest payload)
+        public async Task<Person> UpdatePersonTags(string id, UpdatePersonTagsRequest payload)
         {
             Contract.Requires<ArgumentNullException>(id != null);
             Contract.Requires<ArgumentNullException>(payload != null);
@@ -415,7 +417,7 @@ namespace Receptiviti.Client
         {
             Contract.Requires<ArgumentNullException>(id != null);
 
-            var urib = new UriBuilder(Uri.Combine("person").Combine(id).Combine("profile"));
+            var urib = new UriBuilder(Uri.Combine("person").Combine(id).Combine("writing_samples"));
             urib.AppendQueryIfNotNull("from_date", fromDate);
             urib.AppendQueryIfNotNull("to_date", fromDate);
             urib.AppendQueryIfNotNull("tags", tags);
@@ -430,7 +432,7 @@ namespace Receptiviti.Client
         /// <param name="id"></param>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public async Task<WritingSample> PostPersonWritingSample(string id, WritingSampleRequest payload)
+        public async Task<WritingSample> CreatePersonWritingSample(string id, WritingSampleRequest payload)
         {
             Contract.Requires<ArgumentNullException>(id != null);
             Contract.Requires<ArgumentNullException>(payload != null);
@@ -483,7 +485,7 @@ namespace Receptiviti.Client
         /// <param name="id"></param>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public async Task<WritingSample> PutWritingSampleTags(string id, UpdateWritingSampleTagsRequest payload)
+        public async Task<WritingSample> UpdateWritingSampleTags(string id, UpdateWritingSampleTagsRequest payload)
         {
             Contract.Requires<ArgumentNullException>(id != null);
             Contract.Requires<ArgumentNullException>(payload != null);
@@ -498,7 +500,7 @@ namespace Receptiviti.Client
         /// <param name="payload"></param>
         /// <returns></returns>
         [Obsolete]
-        public async Task<WritingSample> PostWritingSample(WritingSampleRequest payload)
+        public async Task<WritingSample> CreateWritingSample(WritingSampleRequest payload)
         {
             Contract.Requires<ArgumentNullException>(payload != null);
 

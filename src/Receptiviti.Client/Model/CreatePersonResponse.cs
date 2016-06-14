@@ -6,7 +6,7 @@ namespace Receptiviti.Client.Model
 {
 
     [Serializable]
-    public class PostPersonResponse :
+    public class CreatePersonResponse :
         Person
     {
 

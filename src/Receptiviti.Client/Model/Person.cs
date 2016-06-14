@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 using Newtonsoft.Json;
 
@@ -7,6 +8,8 @@ namespace Receptiviti.Client.Model
 {
 
     [Serializable]
+    [KnownType(typeof(CreatePersonRequest))]
+    [KnownType(typeof(CreatePersonResponse))]
     public class Person
     {
 

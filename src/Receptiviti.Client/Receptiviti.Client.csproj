@@ -148,7 +148,7 @@
     <Compile Include="Model\CreatePersonRequest.cs" />
     <Compile Include="Model\ContentSource.cs" />
     <Compile Include="Model\Gender.cs" />
-    <Compile Include="Model\PostPersonResponse.cs" />
+    <Compile Include="Model\CreatePersonResponse.cs" />
     <Compile Include="Model\WritingSample.cs" />
     <Compile Include="Model\WritingSampleRequest.cs" />
     <Compile Include="ReceptivitiClient.cs" />

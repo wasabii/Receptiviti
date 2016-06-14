@@ -25,7 +25,7 @@ namespace Receptiviti.Client.Tests
         {
             var api = new ReceptivitiClient(API_KEY, API_SECRET_KEY);
             var rid = Guid.NewGuid().ToString();
-            var person = await api.PostPerson(new CreatePersonRequest()
+            var person = await api.CreatePerson(new CreatePersonRequest()
             {
                 ClientReferenceId = rid,
                 Name = "Test Person",
@@ -49,27 +49,27 @@ namespace Receptiviti.Client.Tests
         public async Task Test_GetLsm()
         {
             var api = new ReceptivitiClient(API_KEY, API_SECRET_KEY);
-            var person1 = await api.PostPerson(new CreatePersonRequest()
+            var person1 = await api.CreatePerson(new CreatePersonRequest()
             {
                 ClientReferenceId = Guid.NewGuid().ToString(),
                 Name = "Test Person 1",
                 Gender = Gender.Male,
                 Tags = new string[] { "tag1", "tag2" },
             });
-            var person2 = await api.PostPerson(new CreatePersonRequest()
+            var person2 = await api.CreatePerson(new CreatePersonRequest()
             {
                 ClientReferenceId = Guid.NewGuid().ToString(),
                 Name = "Test Person 2",
                 Gender = Gender.Male,
                 Tags = new string[] { "tag1", "tag2" },
             });
-            var sample1 = await api.PostPersonWritingSample(person1.Id, new WritingSampleRequest()
+            var sample1 = await api.CreatePersonWritingSample(person1.Id, new WritingSampleRequest()
             {
                 ContentSource = ContentSource.ProfessionalCorrespondence,
                 Content = "hello this is a test",
                 Recipient = person2.Id,
             });
-            var sample2 = await api.PostPersonWritingSample(person2.Id, new WritingSampleRequest()
+            var sample2 = await api.CreatePersonWritingSample(person2.Id, new WritingSampleRequest()
             {
                 ContentSource = ContentSource.ProfessionalCorrespondence,
                 Content = "hello this is a test",
@@ -82,11 +82,18 @@ namespace Receptiviti.Client.Tests
         public async Task Test_PostWritingSample()
         {
             var api = new ReceptivitiClient(API_KEY, API_SECRET_KEY);
-            var wrt = await api.PostWritingSample(new WritingSampleRequest()
+            var wrt = await api.CreateWritingSample(new WritingSampleRequest()
             {
                 ContentSource = ContentSource.ProfessionalCorrespondence,
                 Content = "hello",
             });
+        }
+
+        [TestMethod]
+        public async Task Test_GetWritingSample()
+        {
+            var api = new ReceptivitiClient(API_KEY, API_SECRET_KEY);
+            var wrt = await api.GetPersonWritingSamples("574a1070955bdb0647153d27");
         }
 
     }

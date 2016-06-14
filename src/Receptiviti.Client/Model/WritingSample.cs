@@ -21,9 +21,6 @@ namespace Receptiviti.Client.Model
         [JsonProperty("content_source")]
         public ContentSource ContentSource { get; set; }
 
-        [JsonProperty("liwc_scores")]
-        public LiwcScores LiwcScores { get; set; }
-
         [JsonProperty("sample_date")]
         public DateTime SampleDate { get; set; }
 
@@ -38,6 +35,9 @@ namespace Receptiviti.Client.Model
 
         [JsonProperty("person")]
         public string Person { get; set; }
+
+        [JsonProperty("liwc_scores")]
+        public LiwcScores LiwcScores { get; set; }
 
         [JsonProperty("receptiviti_scores")]
         public ReceptivitiScores ReceptivitiScores { get; set; }
