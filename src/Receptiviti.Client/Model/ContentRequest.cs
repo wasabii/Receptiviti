@@ -7,29 +7,29 @@ namespace Receptiviti.Client.Model
 {
 
     [Serializable]
-    public class WritingSampleRequest
+    public class ContentRequest
     {
 
         [JsonProperty("language", NullValueHandling = NullValueHandling.Ignore)]
         public Language? Language { get; set; }
 
-        [JsonProperty("tags", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("content_tags", NullValueHandling = NullValueHandling.Ignore)]
         public string[] Tags { get; set; }
 
-        [JsonProperty("client_reference_id")]
-        public string ClientReferenceId { get; set; }
+        [JsonProperty("content_handle", NullValueHandling = NullValueHandling.Ignore)]
+        public string Handle { get; set; }
 
         [JsonProperty("content_source")]
-        public ContentSource ContentSource { get; set; }
+        public ContentSource Source { get; set; }
 
-        [JsonProperty("content")]
+        [JsonProperty("language_content")]
         public string Content { get; set; }
 
-        [JsonProperty("sample_date", NullValueHandling = NullValueHandling.Ignore)]
-        public DateTime? SampleDate { get; set; }
+        [JsonProperty("content_date", NullValueHandling = NullValueHandling.Ignore)]
+        public DateTime? Date { get; set; }
 
-        [JsonProperty("recipient", NullValueHandling = NullValueHandling.Ignore)]
-        public string Recipient { get; set; }
+        [JsonProperty("recipient_id", NullValueHandling = NullValueHandling.Ignore)]
+        public string RecipientId { get; set; }
 
         [JsonProperty("custom_fields", NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string, string> CustomFields { get; set; } = new Dictionary<string, string>();

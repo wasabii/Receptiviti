@@ -10,8 +10,8 @@ namespace Receptiviti.Client.Model
         Person
     {
 
-        [JsonProperty("writing_samples", NullValueHandling = NullValueHandling.Ignore)]
-        public WritingSample[] WritingSamples { get; set; }
+        [JsonProperty("contents", NullValueHandling = NullValueHandling.Ignore)]
+        public Content[] Contents { get; set; }
 
     }
 

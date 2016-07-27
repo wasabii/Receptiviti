@@ -23,7 +23,7 @@ namespace Receptiviti.Client
         /// <summary>
         /// Default public URI of the Receptiviti service.
         /// </summary>
-        public const string DEFAULT_URI = "https://api.receptiviti.com/api";
+        public const string DEFAULT_URI = "https://app.receptiviti.com/api";
 
         readonly HttpClient http;
         Uri uri;
@@ -168,10 +168,14 @@ namespace Receptiviti.Client
         /// <param name="response"></param>
         /// <returns></returns>
         async Task<TResult> ParseResponseBody<TResult>(HttpResponseMessage response)
+            where TResult : class
         {
             Contract.Requires<ArgumentNullException>(response != null);
 
-            var s = await response.Content.ReadAsStringAsync();
+            var s = await response.Content?.ReadAsStringAsync();
+            if (s == null)
+                return null;
+
             var j = JToken.Parse(s);
             var o = j.ToObject<TResult>();
 
@@ -184,6 +188,7 @@ namespace Receptiviti.Client
         /// <param name="response"></param>
         /// <returns></returns>
         async Task<TResult> HandleResponse<TResult>(HttpResponseMessage response)
+            where TResult : class
         {
             Contract.Requires<ArgumentNullException>(response != null);
 
@@ -225,6 +230,7 @@ namespace Receptiviti.Client
         /// <param name="request"></param>
         /// <returns></returns>
         async Task<TResult> SendAsync<TResult>(HttpRequestMessage request)
+            where TResult : class
         {
             Contract.Requires<ArgumentNullException>(request != null);
 
@@ -283,9 +289,9 @@ namespace Receptiviti.Client
             urib.AppendQuery("person1", person1);
             urib.AppendQuery("person2", person2);
             urib.AppendQueryIfNotNull("language", language?.ToEnumString());
-            urib.AppendQueryIfNotNull("tags", tags);
-            urib.AppendQueryIfNotNull("from_date", fromDate);
-            urib.AppendQueryIfNotNull("to_date", toDate);
+            urib.AppendQueryIfNotNull("content_tags", tags);
+            urib.AppendQueryIfNotNull("content_from_date", fromDate);
+            urib.AppendQueryIfNotNull("content_to_date", toDate);
 
             using (var request = CreateMessage(HttpMethod.Get, urib.Uri))
                 return await SendAsync<LsmScoreResult>(request);
@@ -297,17 +303,17 @@ namespace Receptiviti.Client
         /// <param name="name"></param>
         /// <param name="tags"></param>
         /// <param name="gender"></param>
-        /// <param name="clientReferenceId"></param>
+        /// <param name="handle"></param>
         /// <param name="limit"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        public async Task<Many<Person>> GetPersons(string name = null, string[] tags = null, int? gender = null, string clientReferenceId = null, int? limit = null, int? offset = null)
+        public async Task<Many<Person>> GetPersons(string name = null, string[] tags = null, int? gender = null, string handle = null, int? limit = null, int? offset = null)
         {
             var urib = new UriBuilder(Uri.Combine("person"));
             urib.AppendQueryIfNotNull("name", name);
-            urib.AppendQueryIfNotNull("tags", tags);
+            urib.AppendQueryIfNotNull("person_tags", tags);
             urib.AppendQueryIfNotNull("gender", gender);
-            urib.AppendQueryIfNotNull("client_reference_id", clientReferenceId);
+            urib.AppendQueryIfNotNull("person_handle", handle);
             urib.AppendQueryIfNotNull("limit", limit);
             urib.AppendQueryIfNotNull("offset", offset);
 
@@ -357,19 +363,21 @@ namespace Receptiviti.Client
         }
 
         /// <summary>
-        /// Analyze writing sample for a Person.
+        /// Analyze content for a Person.
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="targetDate"></param>
-        /// <param name="fromDate"></param>
+        /// <param name="contentFromDate"></param>
+        /// <param name="contentToDate"></param>
+        /// <param name="contentTags"></param>
         /// <returns></returns>
-        public async Task<PersonProfile> GetPersonProfile(string id, DateTime? targetDate = null, DateTime? fromDate = null)
+        public async Task<PersonProfile> GetPersonProfile(string id, DateTime? contentFromDate = null, DateTime? contentToDate = null, string[] contentTags = null)
         {
             Contract.Requires<ArgumentNullException>(id != null);
 
             var urib = new UriBuilder(Uri.Combine("person").Combine(id).Combine("profile"));
-            urib.AppendQueryIfNotNull("target_date", targetDate);
-            urib.AppendQueryIfNotNull("from_date", fromDate);
+            urib.AppendQueryIfNotNull("content_from_date", contentFromDate);
+            urib.AppendQueryIfNotNull("content_to_date", contentToDate);
+            urib.AppendQueryIfNotNull("content_tags", contentTags);
 
             using (var request = CreateMessage(HttpMethod.Get, urib.Uri))
                 return await SendAsync<PersonProfile>(request);
@@ -406,39 +414,39 @@ namespace Receptiviti.Client
         }
 
         /// <summary>
-        /// Get writing samples.
+        /// Get contents.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="fromDate"></param>
         /// <param name="toDate"></param>
         /// <param name="tags"></param>
         /// <returns></returns>
-        public async Task<Many<WritingSample>> GetPersonWritingSamples(string id, DateTime? fromDate = null, DateTime? toDate = null, string[] tags = null)
+        public async Task<Many<Content>> GetPersonContents(string id, DateTime? fromDate = null, DateTime? toDate = null, string[] tags = null)
         {
             Contract.Requires<ArgumentNullException>(id != null);
 
-            var urib = new UriBuilder(Uri.Combine("person").Combine(id).Combine("writing_samples"));
-            urib.AppendQueryIfNotNull("from_date", fromDate);
-            urib.AppendQueryIfNotNull("to_date", fromDate);
-            urib.AppendQueryIfNotNull("tags", tags);
+            var urib = new UriBuilder(Uri.Combine("person").Combine(id).Combine("contents"));
+            urib.AppendQueryIfNotNull("content_from_date", fromDate);
+            urib.AppendQueryIfNotNull("content_to_date", fromDate);
+            urib.AppendQueryIfNotNull("content_tags", tags);
 
             using (var request = CreateMessage(HttpMethod.Get, urib.Uri))
-                return await SendWithManyAsync<WritingSample>(request);
+                return await SendWithManyAsync<Content>(request);
         }
 
         /// <summary>
-        /// Post writing sample.
+        /// Post content.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public async Task<WritingSample> CreatePersonWritingSample(string id, WritingSampleRequest payload)
+        public async Task<Content> CreatePersonContent(string id, ContentRequest payload)
         {
             Contract.Requires<ArgumentNullException>(id != null);
             Contract.Requires<ArgumentNullException>(payload != null);
 
-            using (var request = CreateMessage(HttpMethod.Post, Uri.Combine("person").Combine(id).Combine("writing_samples"), payload))
-                return await SendAsync<WritingSample>(request);
+            using (var request = CreateMessage(HttpMethod.Post, Uri.Combine("person").Combine(id).Combine("contents"), payload))
+                return await SendAsync<Content>(request);
         }
 
         /// <summary>
@@ -452,60 +460,60 @@ namespace Receptiviti.Client
         }
 
         /// <summary>
-        /// Get writing sample.
+        /// Get Content.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<WritingSample> GetWritingSample(string id)
+        public async Task<Content> GetContent(string id)
         {
             Contract.Requires<ArgumentNullException>(id != null);
 
-            using (var request = CreateMessage(HttpMethod.Get, Uri.Combine("writing_sample").Combine(id)))
-                return await SendAsync<WritingSample>(request);
+            using (var request = CreateMessage(HttpMethod.Get, Uri.Combine("content").Combine(id)))
+                return await SendAsync<Content>(request);
         }
 
         /// <summary>
-        /// Delete tags from a Writing Sample's tag list.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="payload"></param>
-        /// <returns></returns>
-        public async Task<WritingSample> DeleteWritingSampleTags(string id, UpdateWritingSampleTagsRequest payload)
-        {
-            Contract.Requires<ArgumentNullException>(id != null);
-            Contract.Requires<ArgumentNullException>(payload != null);
-
-            using (var request = CreateMessage(HttpMethod.Delete, Uri.Combine("writing_sample").Combine(id).Combine("tags"), payload))
-                return await SendAsync<WritingSample>(request);
-        }
-
-        /// <summary>
-        /// Append tags to a Writing Sample's tag list.
+        /// Delete tags from a Content's tag list.
         /// </summary>
         /// <param name="id"></param>
         /// <param name="payload"></param>
         /// <returns></returns>
-        public async Task<WritingSample> UpdateWritingSampleTags(string id, UpdateWritingSampleTagsRequest payload)
+        public async Task<Content> DeleteContentTags(string id, UpdateContentTagsRequest payload)
         {
             Contract.Requires<ArgumentNullException>(id != null);
             Contract.Requires<ArgumentNullException>(payload != null);
 
-            using (var request = CreateMessage(HttpMethod.Put, Uri.Combine("writing_sample").Combine(id).Combine("tags"), payload))
-                return await SendAsync<WritingSample>(request);
+            using (var request = CreateMessage(HttpMethod.Delete, Uri.Combine("content").Combine(id).Combine("tags"), payload))
+                return await SendAsync<Content>(request);
         }
 
         /// <summary>
-        /// Creates a new writing sample.
+        /// Append tags to a Content's tag list.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="payload"></param>
+        /// <returns></returns>
+        public async Task<Content> UpdateContentTags(string id, UpdateContentTagsRequest payload)
+        {
+            Contract.Requires<ArgumentNullException>(id != null);
+            Contract.Requires<ArgumentNullException>(payload != null);
+
+            using (var request = CreateMessage(HttpMethod.Put, Uri.Combine("content").Combine(id).Combine("tags"), payload))
+                return await SendAsync<Content>(request);
+        }
+
+        /// <summary>
+        /// Creates a new content.
         /// </summary>
         /// <param name="payload"></param>
         /// <returns></returns>
         [Obsolete]
-        public async Task<WritingSample> CreateWritingSample(WritingSampleRequest payload)
+        public async Task<Content> CreateContent(ContentRequest payload)
         {
             Contract.Requires<ArgumentNullException>(payload != null);
 
-            using (var request = CreateMessage(HttpMethod.Post, Uri.Combine("writing_sample"), payload))
-                return await SendAsync<WritingSample>(request);
+            using (var request = CreateMessage(HttpMethod.Post, Uri.Combine("content"), payload))
+                return await SendAsync<Content>(request);
         }
 
     }

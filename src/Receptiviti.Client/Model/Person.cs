@@ -25,8 +25,8 @@ namespace Receptiviti.Client.Model
         [JsonProperty("name")]
         public string Name { get; set; }
 
-        [JsonProperty("client_reference_id")]
-        public string ClientReferenceId { get; set; }
+        [JsonProperty("person_handle")]
+        public string Handle { get; set; }
 
         [JsonProperty("gender")]
         public Gender Gender { get; set; }
@@ -34,11 +34,11 @@ namespace Receptiviti.Client.Model
         [JsonProperty("user")]
         public string User { get; set; }
 
-        [JsonProperty("tags")]
+        [JsonProperty("person_tags")]
         public string[] Tags { get; set; }
 
-        [JsonProperty("writing_samples_count")]
-        public int WritingSamplesCount { get; set; }
+        [JsonProperty("content_count")]
+        public int ContentCount { get; set; }
 
         [JsonProperty("custom_fields", NullValueHandling = NullValueHandling.Ignore)]
         public Dictionary<string, string> CustomFields { get; set; } = new Dictionary<string, string>();

@@ -27,12 +27,12 @@ namespace Receptiviti.Client.Tests
             var rid = Guid.NewGuid().ToString();
             var person = await api.CreatePerson(new CreatePersonRequest()
             {
-                ClientReferenceId = rid,
+                Handle = rid,
                 Name = "Test Person",
                 Gender = Gender.Male,
                 Tags = new string[] { "tag1", "tag2" },
             });
-            Assert.AreEqual(rid, person.ClientReferenceId);
+            Assert.AreEqual(rid, person.Handle);
             Assert.AreEqual("Test Person", person.Name);
             Assert.AreEqual(Gender.Male, person.Gender);
             Assert.AreEqual(2, person.Tags.Length);
@@ -51,49 +51,49 @@ namespace Receptiviti.Client.Tests
             var api = new ReceptivitiClient(API_KEY, API_SECRET_KEY);
             var person1 = await api.CreatePerson(new CreatePersonRequest()
             {
-                ClientReferenceId = Guid.NewGuid().ToString(),
+                Handle = Guid.NewGuid().ToString(),
                 Name = "Test Person 1",
                 Gender = Gender.Male,
                 Tags = new string[] { "tag1", "tag2" },
             });
             var person2 = await api.CreatePerson(new CreatePersonRequest()
             {
-                ClientReferenceId = Guid.NewGuid().ToString(),
+                Handle = Guid.NewGuid().ToString(),
                 Name = "Test Person 2",
                 Gender = Gender.Male,
                 Tags = new string[] { "tag1", "tag2" },
             });
-            var sample1 = await api.CreatePersonWritingSample(person1.Id, new WritingSampleRequest()
+            var sample1 = await api.CreatePersonContent(person1.Id, new ContentRequest()
             {
-                ContentSource = ContentSource.ProfessionalCorrespondence,
+                Source = ContentSource.ProfessionalCorrespondence,
                 Content = "hello this is a test",
-                Recipient = person2.Id,
+                RecipientId = person2.Id,
             });
-            var sample2 = await api.CreatePersonWritingSample(person2.Id, new WritingSampleRequest()
+            var sample2 = await api.CreatePersonContent(person2.Id, new ContentRequest()
             {
-                ContentSource = ContentSource.ProfessionalCorrespondence,
+                Source = ContentSource.ProfessionalCorrespondence,
                 Content = "hello this is a test",
-                Recipient = person1.Id,
+                RecipientId = person1.Id,
             });
             var lsm = await api.GetLsmScore(person1.Id, person2.Id);
         }
 
         [TestMethod]
-        public async Task Test_PostWritingSample()
+        public async Task Test_PostContent()
         {
             var api = new ReceptivitiClient(API_KEY, API_SECRET_KEY);
-            var wrt = await api.CreateWritingSample(new WritingSampleRequest()
+            var wrt = await api.CreateContent(new ContentRequest()
             {
-                ContentSource = ContentSource.ProfessionalCorrespondence,
+                Source = ContentSource.ProfessionalCorrespondence,
                 Content = "hello",
             });
         }
 
         [TestMethod]
-        public async Task Test_GetWritingSample()
+        public async Task Test_GetContent()
         {
             var api = new ReceptivitiClient(API_KEY, API_SECRET_KEY);
-            var wrt = await api.GetPersonWritingSamples("574a1070955bdb0647153d27");
+            var wrt = await api.GetPersonContents("574a1070955bdb0647153d27");
         }
 
     }

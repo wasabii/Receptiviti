@@ -19,7 +19,7 @@ namespace Receptiviti.Client.Model
         /// <summary>
         /// Tags.
         /// </summary>
-        [JsonProperty("tags", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("person_tags", NullValueHandling = NullValueHandling.Ignore)]
         public string[] Tags { get; set; }
 
         /// <summary>
@@ -29,10 +29,10 @@ namespace Receptiviti.Client.Model
         public Gender Gender { get; set; }
 
         /// <summary>
-        /// A reference id for the person. Contact/Customer ID from calling software.
+        /// A reference for the person. Contact/Customer ID from calling software.
         /// </summary>
-        [JsonProperty("client_reference_id")]
-        public string ClientReferenceId { get; set; }
+        [JsonProperty("person_handle")]
+        public string Handle { get; set; }
 
         /// <summary>
         /// Custom Fields.

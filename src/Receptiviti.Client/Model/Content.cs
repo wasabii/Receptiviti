@@ -6,7 +6,7 @@ namespace Receptiviti.Client.Model
 {
 
     [Serializable]
-    public class WritingSample
+    public class Content
     {
 
         [JsonProperty("_id")]
@@ -19,12 +19,12 @@ namespace Receptiviti.Client.Model
         public DateTimeOffset Updated { get; set; }
 
         [JsonProperty("content_source")]
-        public ContentSource ContentSource { get; set; }
+        public ContentSource Source { get; set; }
 
-        [JsonProperty("sample_date")]
-        public DateTime SampleDate { get; set; }
+        [JsonProperty("content_date")]
+        public DateTime Date { get; set; }
 
-        [JsonProperty("tags")]
+        [JsonProperty("content_tags")]
         public string[] Tags { get; set; }
 
         [JsonProperty("user")]
