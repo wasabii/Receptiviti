@@ -23,7 +23,7 @@ namespace Receptiviti.Client
         /// <summary>
         /// Default public URI of the Receptiviti service.
         /// </summary>
-        public const string DEFAULT_URI = "https://app.receptiviti.com/api";
+        public const string DEFAULT_URI = "https://app.receptiviti.com/v2/api";
 
         readonly HttpClient http;
         Uri uri;

@@ -8,6 +8,8 @@ namespace Receptiviti.Client.Model
     [Serializable]
     public class ReceptivitiScoreSet
     {
+
+        public double Imaginative { get; set; }
         
         [JsonProperty("independent")]
         public double Independent { get; set; }

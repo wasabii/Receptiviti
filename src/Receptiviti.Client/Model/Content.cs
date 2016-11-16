@@ -27,6 +27,9 @@ namespace Receptiviti.Client.Model
         [JsonProperty("content_tags")]
         public string[] Tags { get; set; }
 
+        [JsonProperty("recipient")]
+        public string Recipient { get; set; }
+
         [JsonProperty("user")]
         public string User { get; set; }
 
@@ -35,6 +38,9 @@ namespace Receptiviti.Client.Model
 
         [JsonProperty("person")]
         public string Person { get; set; }
+
+        [JsonProperty("communication_recommendation")]
+        public string CommunicationRecommendation { get; set; }
 
         [JsonProperty("liwc_scores")]
         public LiwcScores LiwcScores { get; set; }

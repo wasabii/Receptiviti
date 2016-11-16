@@ -49,14 +49,14 @@ namespace Receptiviti.Client.Tests
         public async Task Test_GetLsm()
         {
             var api = new ReceptivitiClient(API_KEY, API_SECRET_KEY);
-            var person1 = await api.CreatePerson(new CreatePersonRequest()
+            var person1 = (Person)await api.CreatePerson(new CreatePersonRequest()
             {
                 Handle = Guid.NewGuid().ToString(),
                 Name = "Test Person 1",
                 Gender = Gender.Male,
                 Tags = new string[] { "tag1", "tag2" },
             });
-            var person2 = await api.CreatePerson(new CreatePersonRequest()
+            var person2 = (Person)await api.CreatePerson(new CreatePersonRequest()
             {
                 Handle = Guid.NewGuid().ToString(),
                 Name = "Test Person 2",
@@ -75,6 +75,10 @@ namespace Receptiviti.Client.Tests
                 Content = "hello this is a test",
                 RecipientId = person1.Id,
             });
+
+            person1 = await api.GetPerson(person1.Id);
+            person2 = await api.GetPerson(person2.Id);
+
             var lsm = await api.GetLsmScore(person1.Id, person2.Id);
         }
 
@@ -93,7 +97,9 @@ namespace Receptiviti.Client.Tests
         public async Task Test_GetContent()
         {
             var api = new ReceptivitiClient(API_KEY, API_SECRET_KEY);
-            var wrt = await api.GetPersonContents("574a1070955bdb0647153d27");
+            var people = await api.GetPersons(limit: 1);
+            var person = people[0];
+            var wrt = await person.GetContents(api);
         }
 
     }

@@ -131,6 +131,9 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\EmotionalAnalysisToneRating.cs" />
+    <Compile Include="Model\EmotionalAnalysisTone.cs" />
+    <Compile Include="Model\EmotionalAnalysisFacets.cs" />
     <Compile Include="Model\Language.cs" />
     <Compile Include="Model\LiwcCategories.cs" />
     <Compile Include="Model\LiwcScores.cs" />
@@ -140,6 +143,7 @@
     <Compile Include="Model\Person.cs" />
     <Compile Include="Model\PersonProfile.cs" />
     <Compile Include="Model\Ping.cs" />
+    <Compile Include="Model\EmotionalAnalysis.cs" />
     <Compile Include="Model\ReceptivitiScores.cs" />
     <Compile Include="Model\ReceptivitiScoreSet.cs" />
     <Compile Include="Model\UpdateContentTagsRequest.cs" />
@@ -155,6 +159,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReceptivitiError.cs" />
     <Compile Include="ReceptivitiException.cs" />
+    <Compile Include="ReceptivitiModelExtensions.cs" />
     <Compile Include="Util\EnumUtil.cs" />
     <Compile Include="Util\UriBuilderExtensions.cs" />
     <Compile Include="Util\UriExtensions.cs" />
