@@ -229,7 +229,7 @@ namespace Receptiviti.Client.Model
         public double Drives { get; set; }
 
         [JsonProperty("focuspast")]
-        public double Focuspast { get; set; }
+        public double FocusPast { get; set; }
 
         [JsonProperty("article")]
         public double Article { get; set; }
